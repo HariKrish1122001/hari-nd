@@ -37,7 +37,7 @@ router.post('/deposit', [validateTransaction, userMiddleware], async (req, res) 
         await transaction.save();
         await req.user.save();
 
-        res.status(201).json({ message: 'Deposit successful!', transaction });
+        res.status(201).json({ message: transaction });
     } catch (error) {
         errorHandler(error, res);
     }
@@ -52,7 +52,7 @@ router.post('/withdraw', [validateTransaction, userMiddleware], async (req, res)
         req.user.currentbalance -= amount;
         await transaction.save();
         await req.user.save();
-        res.status(201).json({ message: 'Withdrawal successful!', transaction });
+        res.status(201).json({ message: transaction });
     } catch (error) {
         errorHandler(error, res);
     }

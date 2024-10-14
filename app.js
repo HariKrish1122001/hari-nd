@@ -4,14 +4,12 @@ const connectDB = require('./config/db');
 const transactionRouter = require('./routes/transaction');
 const userRouter = require('./routes/user');
 require('dotenv').config();
-
 const app = express();
 const PORT = process.env.PORT || 4000;
-
 connectDB();
 app.use(bodyParser.json());
 
-app.use('/api/transact', transactionRouter);
+app.use('/api/v1', transactionRouter);
 app.use('/api/user', userRouter);
 
 app.listen(PORT, () => {
