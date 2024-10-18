@@ -12,8 +12,9 @@
 
 // models/Transaction.js
 
-const mongoose = require('mongoose');
 
+
+const mongoose = require('mongoose');
 const transactionSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
     type: { type: String, enum: ['deposit', 'withdraw'], required: true },
@@ -21,5 +22,4 @@ const transactionSchema = new mongoose.Schema({
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Register', required: true },
 }, { timestamps: true });
-
 module.exports = mongoose.models.Transaction || mongoose.model('Transaction', transactionSchema);
