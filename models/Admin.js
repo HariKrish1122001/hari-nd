@@ -13,8 +13,8 @@ adminSchema.pre('save', async function (next) {
 const Admin = mongoose.model('Admin', adminSchema);
 const createDefaultAdmin = async () => {
     const defaultAdmin = {
-        accNo: '123456789',
-        password: 'password123',
+        accNo: process.env.DEFAULT_ADMIN_ACCNO,
+        password: process.env.DEFAULT_ADMIN_PASSWORD,
     };
     const existingAdmin = await Admin.findOne({ accNo: defaultAdmin.accNo });
     if (!existingAdmin) {
