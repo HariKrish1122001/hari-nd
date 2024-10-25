@@ -1,12 +1,14 @@
-const User = require('../models/User');
 const Register = require('../models/Register');
 const Transaction = require('../models/Transaction');
 const jwt = require('jsonwebtoken');
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
+
 const errorHandler = (error, res) => {
     console.error('Error:', error);
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
 };
+
 const validateTransaction = (req, res, next) => {
     const { amount } = req.body;
     if (!amount || amount <= 0) {
@@ -14,12 +16,13 @@ const validateTransaction = (req, res, next) => {
     }
     next();
 };
+
 const authenticateUser = async (req, res, next) => {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: 'No token provided, authorization denied' });
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        const user = await Register.findById(decoded.userId);
+        const user = await Register.findById(decoded.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
         req.user = user;
         next();
@@ -27,6 +30,7 @@ const authenticateUser = async (req, res, next) => {
         return res.status(401).json({ message: 'Token is not valid' });
     }
 };
+
 const deposit = async (req, res) => {
     const { amount } = req.body;
     try {
@@ -44,6 +48,7 @@ const deposit = async (req, res) => {
         errorHandler(error, res);
     }
 };
+
 const withdraw = async (req, res) => {
     const { amount } = req.body;
     try {
@@ -64,6 +69,7 @@ const withdraw = async (req, res) => {
         errorHandler(error, res);
     }
 };
+
 const getTransactions = async (req, res) => {
     const transactions = await Transaction.find({ user_id: req.user._id }).sort({ createdAt: -1 });
     res.status(200).json({
@@ -75,6 +81,7 @@ const getTransactions = async (req, res) => {
         })),
     });
 };
+
 module.exports = {
     validateTransaction,
     authenticateUser,

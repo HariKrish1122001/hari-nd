@@ -18,11 +18,27 @@
 // models/Register.js
 
 
+// const mongoose = require('mongoose');
+// const registerSchema = new mongoose.Schema({
+//     username: { type: String, required: true },
+//     accNo: { type: String, required: true, unique: true },
+//     password: { type: String, required: true },
+//     currentbalance: { type: Number, default: 0 },
+// }, { timestamps: true });
+// module.exports = mongoose.models.Register || mongoose.model('Register', registerSchema);
+
+
+
+
 const mongoose = require('mongoose');
+
 const registerSchema = new mongoose.Schema({
     username: { type: String, required: true },
     accNo: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     currentbalance: { type: Number, default: 0 },
+    role: { type: String, enum: ['admin', 'user'], default: 'user' }
 }, { timestamps: true });
+
 module.exports = mongoose.models.Register || mongoose.model('Register', registerSchema);
+
